@@ -1,0 +1,122 @@
+/* ==== Photos (2026-11-04) ====
+   Every photo sits in a component built for it: hero backgrounds, captioned article figures,
+   text + photo splits, pillar card headers, blog card thumbnails. No free-floating image strips. */
+
+/* ---- Hero background photo (real <img> under the scrim, responsive srcset) ---- */
+.page-hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  pointer-events: none;
+}
+
+/* ---- Shared photo frame ---- */
+.article-figure img,
+.tips-split-photo img,
+.media-row-photo img,
+.split-photo img,
+.le-photo img,
+.process-photo img {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--radius-lg);
+  background: var(--bg-light-gray);
+}
+
+/* ---- Article figure (service + location pages): full column width, captioned ---- */
+.article-figure { margin: 28px 0 32px; }
+.article-figure img { aspect-ratio: 3 / 2; object-fit: cover; box-shadow: var(--shadow-md); }
+.article-figure figcaption {
+  display: flex; gap: 12px; align-items: flex-start;
+  margin-top: 14px;
+  font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary);
+}
+.article-figure figcaption::before {
+  content: ''; flex: 0 0 28px; height: 3px; margin-top: 0.62em;
+  border-radius: 2px; background: var(--gradient-accent);
+}
+
+/* ---- Tips split: a list beside a photo of the habit it describes (inside the article column) ---- */
+.tips-split {
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 36px; align-items: start;
+  margin: 8px 0 24px;
+}
+.tips-split-text > h2:first-child { margin-top: 0; }
+.tips-split-photo { position: sticky; top: 122px; margin-top: 6px; }
+.tips-split-photo img { aspect-ratio: 4 / 3; object-fit: cover; box-shadow: var(--shadow-md); }
+
+/* ---- Media row: alternating text + photo blocks inside long copy (residential, commercial) ---- */
+.media-row {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 56px; align-items: center;
+  margin: 8px 0 56px;
+}
+.media-row--flip .media-row-photo { order: -1; }
+.media-row-photo img { aspect-ratio: 4 / 3; object-fit: cover; box-shadow: var(--shadow-lg); }
+.media-row-text > p:last-child { margin-bottom: 0; }
+
+/* ---- Split photo (existing grid-2 text + image sections) ---- */
+.split-photo img { aspect-ratio: 4 / 3; object-fit: cover; box-shadow: var(--shadow-lg); }
+
+/* ---- Homepage: pillar cards lead with a photo, icon tile overlaps the photo edge ---- */
+.pillar-card::before { z-index: 2; }
+.pillar-media {
+  display: block; position: relative;
+  margin: -32px -32px 0;
+  aspect-ratio: 16 / 9; overflow: hidden;
+  background: var(--bg-light-gray);
+}
+.pillar-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+.pillar-media + .pillar-icon { position: relative; z-index: 1; margin-top: -26px; box-shadow: 0 0 0 4px var(--bg-white), var(--shadow-sm); }
+.pillar-cool .pillar-media + .pillar-icon { background: #E6F6FE; }
+.pillar-warm .pillar-media + .pillar-icon { background: #FFEEE2; }
+@media (hover: hover) { .pillar-card:hover .pillar-media img { transform: scale(1.035); } }
+
+/* ---- Homepage: local section photo above the stat tiles ---- */
+.local-expertise-layout { grid-template-columns: minmax(0, 1fr) 400px; }
+.le-photo { grid-column: 1 / -1; margin: 0 0 4px; }
+.le-photo img { aspect-ratio: 4 / 3; object-fit: cover; box-shadow: var(--shadow-md); }
+
+/* ---- Homepage: process steps beside the diagnosis photo ---- */
+.process-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  grid-template-areas: "photo head" "photo steps";
+  grid-template-rows: auto 1fr;
+  column-gap: 72px;
+  align-items: start;
+}
+.process-head { grid-area: head; margin-bottom: 36px; }
+.process-head .section-subtitle { margin-left: 0; margin-right: 0; max-width: 560px; }
+.process-photo { grid-area: photo; position: sticky; top: 122px; }
+.process-photo img { aspect-ratio: 4 / 5; object-fit: cover; box-shadow: var(--shadow-xl); }
+.process-split .vertical-process { grid-area: steps; }
+
+/* ---- Blog / guide cards: real <img> thumbnails ---- */
+.service-card-img { overflow: hidden; }
+.service-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+@media (hover: hover) { .service-card:hover .service-card-img img { transform: scale(1.04); } }
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .local-expertise-layout { grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; }
+  .media-row { gap: 36px; }
+}
+@media (max-width: 900px) {
+  .process-split { grid-template-columns: 1fr; grid-template-areas: "head" "photo" "steps"; column-gap: 0; }
+  .process-head { margin-bottom: 24px; }
+  .process-photo { position: static; margin-bottom: 36px; }
+  .process-photo img { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 768px) {
+  .article-figure { margin: 22px 0 26px; }
+  .article-figure figcaption { font-size: 0.85rem; }
+  .tips-split { grid-template-columns: 1fr; gap: 0; }
+  .tips-split-photo { position: static; order: 2; margin: 4px 0 8px; }
+  .tips-split-photo img { aspect-ratio: 16 / 10; }
+  .media-row { grid-template-columns: 1fr; gap: 22px; margin-bottom: 44px; }
+  .media-row-photo, .media-row--flip .media-row-photo { order: -1; }
+  .media-row-photo img, .split-photo img { aspect-ratio: 16 / 10; }
+  .pillar-media { margin: -24px -20px 0; }
+  .local-expertise-layout { grid-template-columns: 1fr; }
+}
